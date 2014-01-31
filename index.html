@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>An Angular directive for including external markdown files</title>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.0/marked.js"></script>
+
+	<script type='text/javascript'>
+		//<![CDATA[ 
+
+		var app = angular.module('myApp', []);
+
+		app.directive('markdown', ['$compile', '$http', '$templateCache',
+			function($compile, $http, $templateCache) {
+				return {
+					restrict: 'E',
+					replace: true,
+					transclude: true,
+					compile: function(elem, attr) {
+						templateLoader = $http.get(attr.src, {
+							cache: $templateCache
+						})
+						.success(function(md) {
+							elem.html(marked(md));
+						})
+						.error(function(md) {
+							errStr = 'An error occurred processing markdown file <a target="_blank" href="' + attr.src + '">' + attr.src + '</a>: ' + md;
+							console.log(errStr);
+							elem.html(errStr);
+						})
+						;
+					}
+				};
+			}
+		])
+
+		 //]]>
+	</script>
+
+</head>
+
+<body ng-app="myApp">
+	<markdown src="copyw.md">This content will be replaced my markdown</markdown>
+</body>
+
+</html>
