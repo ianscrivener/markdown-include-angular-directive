@@ -15,7 +15,7 @@
 		app.directive('markdown', ['$compile', '$http', '$templateCache',
 			function($compile, $http, $templateCache) {
 				return {
-					restrict: 'E',
+					restrict: 'AE',
 					replace: true,
 					transclude: true,
 					compile: function(elem, attr) {
