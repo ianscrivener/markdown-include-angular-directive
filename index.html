@@ -15,9 +15,9 @@
 		app.directive('markdown', ['$compile', '$http', '$templateCache',
 			function($compile, $http, $templateCache) {
 				return {
-					restrict: 'E',
+					restrict: 'AE',
 					replace: true,
-					transclude: true,
+					transclude: false,
 					compile: function(elem, attr) {
 						templateLoader = $http.get(attr.src, {
 							cache: $templateCache
@@ -42,7 +42,11 @@
 </head>
 
 <body ng-app="myApp">
-	<markdown src="some_markdown.md">This content will be replaced my markdown</markdown>
+	<markdown src="copy_1.md">This content will be replaced my markdown</markdown>
+	
+	<p markdown src="copy_2.md" />
+	
+	<div markdown src="copy_3.md" />
 </body>
 
 </html>
